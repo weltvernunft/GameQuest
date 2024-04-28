@@ -133,7 +133,10 @@ const ListItem: React.FC<ListItemProps> = ({ game, displayMode }) => {
             <p className="ml-1 text-zinc-500">{game.rating}</p>
           </div>
           <div className="release-date text-zinc-500">
-            released: <span className="text-zinc-300">{game.released}</span>
+            released:{" "}
+            <span className="text-zinc-300">
+              {game.released.replace(/-/g, ".")}
+            </span>
           </div>
         </div>
         <div className="multiplayer flex justify-between">
@@ -150,8 +153,8 @@ const ListItem: React.FC<ListItemProps> = ({ game, displayMode }) => {
             )}
           </div>
           {game.supportsMultiplayer && (
-            <p>
-              Max players: <span className="text-global">{game.playtime}</span>
+            <p className="text-zinc-500">
+              Max players: <span className="text-global text-zinc-300">{game.playtime}</span>
             </p>
           )}
         </div>

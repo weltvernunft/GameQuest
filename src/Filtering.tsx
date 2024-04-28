@@ -46,7 +46,7 @@ const Filtering: React.FC<Props> = ({ onFilterChange }) => {
 
  return (
     <div className="filter-container w-80">
-      <div className="flex flex-col gap-4 filter-options px-2 py-2 fixed border text-zinc-400 bg-zinc-800 border-zinc-700 h-[95vh] rounded-md">
+      <div className="flex flex-col gap-4 filter-options px-2 py-2 fixed border text-zinc-400 bg-zinc-800 border-zinc-700 h-[88vh] rounded-md">
         <label htmlFor="platformFilter">Filter by platform:</label>
         <select
           id="platformFilter"
