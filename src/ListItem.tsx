@@ -90,7 +90,7 @@ const ListItem: React.FC<ListItemProps> = ({ game, displayMode }) => {
           />
         )}
         {isHovering && (
-          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-2 mt-2">
+          <div className="absolute bottom-32 left-0 right-0 flex justify-center gap-2 z-50">
             {game.screenshots.map((screenshot, index) => (
               <div
                 key={index}
