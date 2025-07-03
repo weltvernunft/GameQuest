@@ -1,4 +1,5 @@
-// src/services/fetchPlatforms.ts
+const API_KEY = import.meta.env.VITE_RAWG_API_KEY;
+const API_URL = `https://api.rawg.io/api/platforms?key=${API_KEY}`;
 
 export interface Platform {
   id: number;
