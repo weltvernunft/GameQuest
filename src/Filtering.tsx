@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
+import { fetchPlatforms, Platform } from "./services/fetchPlatforms";
 
 interface Props {
   onFilterChange: (
@@ -7,11 +8,6 @@ interface Props {
     languageSupport: boolean
   ) => void;
   onSearchChange: (searchTerm: string) => void;
-}
-
-interface Platform {
-  id: number;
-  name: string;
 }
 
 const Filtering: React.FC<Props> = ({ onFilterChange, onSearchChange }) => {
@@ -23,19 +19,12 @@ const Filtering: React.FC<Props> = ({ onFilterChange, onSearchChange }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
-    const fetchPlatforms = async () => {
-      try {
-        const response = await fetch(
-          "https://api.rawg.io/api/platforms?key=77d7bda14f2f481787bdd0b0a148ef92"
-        );
-        const data = await response.json();
-        setPlatforms(data.results);
-      } catch (error) {
-        console.error("Error fetching platforms:", error);
-      }
+    const loadPlatforms = async () => {
+      const results = await fetchPlatforms();
+      setPlatforms(results);
     };
 
-    fetchPlatforms();
+    loadPlatforms();
   }, []);
 
   const handlePlatformChange = (e: ChangeEvent<HTMLSelectElement>) => {
