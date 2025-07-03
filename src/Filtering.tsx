@@ -1,16 +1,28 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 
 interface Props {
- onFilterChange: (platform: string, supportsMultiplayer: boolean, languageSupport: boolean) => void;
+  onFilterChange: (
+    platform: string,
+    supportsMultiplayer: boolean,
+    languageSupport: boolean
+  ) => void;
+  onSearchChange: (searchTerm: string) => void;
 }
 
-const Filtering: React.FC<Props> = ({ onFilterChange }) => {
- const [platforms, setPlatforms] = useState<{ id: number; name: string }[]>([]);
- const [selectedPlatform, setSelectedPlatform] = useState<string>("");
- const [supportsMultiplayer, setSupportsMultiplayer] = useState<boolean>(false);
- const [languageSupport, setLanguageSupport] = useState<boolean>(false); // New state for language support
+interface Platform {
+  id: number;
+  name: string;
+}
 
- useEffect(() => {
+const Filtering: React.FC<Props> = ({ onFilterChange, onSearchChange }) => {
+  const [platforms, setPlatforms] = useState<Platform[]>([]);
+  const [selectedPlatform, setSelectedPlatform] = useState<string>("");
+  const [supportsMultiplayer, setSupportsMultiplayer] =
+    useState<boolean>(false);
+  const [languageSupport, setLanguageSupport] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
     const fetchPlatforms = async () => {
       try {
         const response = await fetch(
@@ -24,29 +36,45 @@ const Filtering: React.FC<Props> = ({ onFilterChange }) => {
     };
 
     fetchPlatforms();
- }, []);
+  }, []);
 
- const handlePlatformChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handlePlatformChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedPlatformId = e.target.value;
     setSelectedPlatform(selectedPlatformId);
     onFilterChange(selectedPlatformId, supportsMultiplayer, languageSupport);
- };
+  };
 
- const handleMultiplayerChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleMultiplayerChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSupportsMultiplayer = e.target.checked;
     setSupportsMultiplayer(newSupportsMultiplayer);
     onFilterChange(selectedPlatform, newSupportsMultiplayer, languageSupport);
- };
+  };
 
- const handleLanguageSupportChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleLanguageSupportChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newLanguageSupport = e.target.checked;
     setLanguageSupport(newLanguageSupport);
     onFilterChange(selectedPlatform, supportsMultiplayer, newLanguageSupport);
- };
+  };
 
- return (
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    onSearchChange(newSearchTerm);
+  };
+
+  return (
     <div className="filter-container w-80">
       <div className="flex flex-col gap-4 filter-options px-2 py-2 fixed border text-zinc-400 bg-zinc-800 border-zinc-700 h-[88vh] rounded-md">
+        <label htmlFor="search">Search by name:</label>
+        <input
+          id="search"
+          type="text"
+          placeholder="e.g. Portal"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="bg-zinc-900 p-2 text-zinc-400 rounded-md"
+        />
+
         <label htmlFor="platformFilter">Filter by platform:</label>
         <select
           id="platformFilter"
@@ -61,6 +89,7 @@ const Filtering: React.FC<Props> = ({ onFilterChange }) => {
             </option>
           ))}
         </select>
+
         <div className="mt-4 flex justify-between">
           <label htmlFor="multiplayerFilter">Supports Multiplayer:</label>
           <input
@@ -71,6 +100,7 @@ const Filtering: React.FC<Props> = ({ onFilterChange }) => {
             className="ml-2"
           />
         </div>
+
         <div className="mt-4 flex justify-between">
           <label htmlFor="languageSupportFilter">Supports Russian:</label>
           <input
@@ -83,7 +113,7 @@ const Filtering: React.FC<Props> = ({ onFilterChange }) => {
         </div>
       </div>
     </div>
- );
+  );
 };
 
 export default Filtering;

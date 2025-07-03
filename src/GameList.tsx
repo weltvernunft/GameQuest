@@ -9,6 +9,7 @@ import { Game } from "./types";
 
 interface GameListProps {
   filterCriteria: FilterCriteria;
+  searchTerm: string;
 }
 
 interface FilterCriteria {
@@ -17,12 +18,16 @@ interface FilterCriteria {
   languageSupport: boolean;
 }
 
-const GameList: React.FC<GameListProps> = ({ filterCriteria }) => {
+const GameList: React.FC<GameListProps> = ({ filterCriteria, searchTerm }) => {
   const [displayMode, setDisplayMode] = useState("grid");
   const [sortBy, setSortBy] = useState<string>("");
   const [orderSelected, setOrderSelected] = useState("grid");
 
   const games = useGames(filterCriteria, sortBy);
+
+  const filteredGames = games.filter((game: Game) =>
+    game.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleOrderSelection = (selectionMode: string) => {
     setOrderSelected(selectionMode);
@@ -79,12 +84,12 @@ const GameList: React.FC<GameListProps> = ({ filterCriteria }) => {
             : "grid-card-container"
         }`}
       >
-        {games.map((game: Game) => (
+        {filteredGames.map((game: Game) => (
           <ListItem key={game.id} game={game} displayMode={displayMode} />
         ))}
       </ul>
       {orderSelected === "column" && (
-        <img src={dendy} alt="" className=" fixed w-80 top-64 right-0 -z-20" />
+        <img src={dendy} alt="" className="fixed w-80 top-64 right-0 -z-20" />
       )}
     </div>
   );

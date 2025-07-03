@@ -47,3 +47,5 @@ src/
 ├── ListItem.tsx        # Отдельный элемент списка
 └── App.tsx             # Входная точка
 ```
+
+const API_KEY = "77d7bda14f2f481787bdd0b0a148ef92";

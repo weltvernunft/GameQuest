@@ -10,6 +10,8 @@ const App: React.FC = () => {
     languageSupport: false,
   });
 
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const handleFilterChange = (
     platform: string,
     supportsMultiplayer: boolean,
@@ -18,12 +20,19 @@ const App: React.FC = () => {
     setFilterCriteria({ platform, supportsMultiplayer, languageSupport });
   };
 
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+  };
+
   return (
     <div className="">
       <Nav />
       <div className="main flex px-4 py-14">
-        <Filtering onFilterChange={handleFilterChange} />
-        <GameList filterCriteria={filterCriteria} />
+        <Filtering
+          onFilterChange={handleFilterChange}
+          onSearchChange={handleSearchChange}
+        />
+        <GameList filterCriteria={filterCriteria} searchTerm={searchTerm} />
       </div>
     </div>
   );
