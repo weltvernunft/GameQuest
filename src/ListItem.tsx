@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import star from "./assets/icons/Star.svg";
-import pc from "./assets/icons/platforms/pc.svg";
-import android from "./assets/icons/platforms/android.svg";
-import playstation from "./assets/icons/platforms/playstation.svg";
-import ios from "./assets/icons/platforms/ios.svg";
-import xbox from "./assets/icons/platforms/xbox.svg";
+import { Game } from "./types";
+import { PlatformIcons } from "./components/PlatformIcons";
 
 interface ListItemProps {
-  game: {
-    id: number;
-    name: string;
-    rating: number;
-    background_image: string;
-    languageSupport: boolean;
-    screenshots: any[];
-    supportsMultiplayer: boolean;
-    playtime: string;
-    released: string;
-    platforms: any[];
-  };
+  game: Game;
   displayMode: string;
 }
 
@@ -42,26 +28,6 @@ const ListItem: React.FC<ListItemProps> = ({ game, displayMode }) => {
     setIsHovering(false);
     setCurrentScreenshotIndex(0);
   };
-
-  const icons = ["pc", "android", "playstation", "ios", "xbox"];
-  const platformIcons = {
-    pc: pc,
-    android: android,
-    playstation: playstation,
-    ios: ios,
-    xbox: xbox,
-  };
-
-  const platformNames = game.platforms.map((platform) => {
-    const platformSlug = platform.platform.slug.toLowerCase();
-    for (const icon of icons) {
-      if (platformSlug.includes(icon)) {
-        return icon;
-      }
-    }
-  });
-  const uniquePlatformNames = [...new Set(platformNames)];
-  console.log(`${game.name} unique platforms: ${uniquePlatformNames}`);
 
   return (
     <li
@@ -91,7 +57,7 @@ const ListItem: React.FC<ListItemProps> = ({ game, displayMode }) => {
         )}
         {isHovering && (
           <div className="absolute bottom-32 left-0 right-0 flex justify-center gap-2 z-50">
-            {game.screenshots.map((screenshot, index) => (
+            {game.screenshots.map((_, index) => (
               <div
                 key={index}
                 className={`w-1 h-1 rounded-full cursor-pointer ${
@@ -105,31 +71,21 @@ const ListItem: React.FC<ListItemProps> = ({ game, displayMode }) => {
           </div>
         )}
       </div>
-      <div className="w-full px-5 py-4 text-left text-gray-300 | flex flex-col gap-1 min-h-32">
-        <div className="platforms flex gap-2">
-          {uniquePlatformNames.map((platform, index) =>
-            platformIcons[platform] ? (
-              <img
-                src={platformIcons[platform]}
-                alt={platform}
-                key={index}
-                className="w-4"
-              />
-            ) : null
-          )}
-        </div>
-
+      <div className="w-full px-5 py-4 text-left text-gray-300 flex flex-col gap-1 min-h-32">
+        <PlatformIcons platforms={game.platforms} />
         <h3 className="text-lg font-semibold mb-2">{game.name}</h3>
         <div className="main-info flex justify-between">
           <div className="stars flex m-0 p-0">
-            {Array.from({ length: Math.floor(game.rating) }).map((_, index) => (
-              <img
-                key={index}
-                src={star}
-                alt="Star"
-                className="w-3 inline-block mr-1"
-              />
-            ))}
+            {Array.from({ length: Math.floor(game.rating || 0) }).map(
+              (_, index) => (
+                <img
+                  key={index}
+                  src={star}
+                  alt="Star"
+                  className="w-3 inline-block mr-1"
+                />
+              )
+            )}
             <p className="ml-1 text-zinc-500">{game.rating}</p>
           </div>
           <div className="release-date text-zinc-500">
@@ -154,7 +110,8 @@ const ListItem: React.FC<ListItemProps> = ({ game, displayMode }) => {
           </div>
           {game.supportsMultiplayer && (
             <p className="text-zinc-500">
-              Max players: <span className="text-global text-zinc-300">{game.playtime}</span>
+              Max players:{" "}
+              <span className="text-global text-zinc-300">{game.playtime}</span>
             </p>
           )}
         </div>

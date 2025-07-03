@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+# 🕹️ GameQuest — Игровая галерея на React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+GameQuest — это интерактивный веб-приложение, которое показывает список игр с возможностью фильтрации, сортировки и просмотра скриншотов. Оно построено на стеке **React + TypeScript + Vite** с использованием **RAWG API**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Возможности
 
-## Expanding the ESLint configuration
+- 📂 Получение данных об играх с [RAWG.io](https://rawg.io/apidocs)
+- 🎮 Фильтрация по платформе, мультиплееру и поддержке русского языка
+- 🌟 Сортировка по имени и рейтингу
+- 🖼️ Просмотр скриншотов при наведении
+- 📱 Адаптивный дизайн
+- 🧱 Смена вида: **сеточный** и **колоночный**
+- 🧃 Пасхалка с Денди в колоночном режиме 🕹️
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🧪 Стек технологий
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- ⚛️ **React** — UI
+- 🧠 **TypeScript** — строгая типизация
+- ⚡ **Vite** — быстрый сборщик
+- 🧰 **TailwindCSS / Custom CSS** — стилизация
+- 🌐 **RAWG API** — источник данных об играх
+
+---
+
+## 📦 Установка и запуск
+
+```bash
+git clone https://github.com/your-username/gamequest.git
+cd gamequest
+npm install
+npm run dev
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
